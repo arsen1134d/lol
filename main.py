@@ -1,53 +1,49 @@
-# class Shifrator:
-#
-#     def __init__(self,a, b):
-#         self.__a = a
-#         self.__b = b
-#
-#     def __result(self):
-#         return self.__a * self.__b/5
-#
-#     def get_result(self):
-#         return self.__result()
-#
-#
-# sh = Shifrator(5,6 )
-# print(sh.get_result())
+import openpyxl
+import requests
+from bs4 import BeautifulSoup
+import lxml
+
+url = "https://allo.ua/ua/products/internet-planshety/"
+user = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+headers = {"User-agent":user}
+
+session = requests.Session()
+
+response = session.get(url, headers=headers)
+
+book = openpyxl.Workbook()
+book.save("catalog.xlsx")
+sheet = book.active
+sheet["A1"] = "Title"
+sheet["B1"] = "Review"
+sheet["C1"] = "Price"
+count = 2
 
 
-#
-# class Number1:
-#     test_number = 3
-#
-#     def __init__(self, number, number_2):
-#         self._number1 = number
-#         self._number2 = number_2
-#         self._test_number2 = 1
-#         self._test_number3 = 2
-#
-#     def __privat_numbers(self, number_3):
-#         self._number3 = number_3
-#         self._number4 = 4
-#         self._number34 = self.__number3 + self._number4
-#
-#     def __not_privat(self, number5 ):
-#         self._number5 = number5
-#         self._number6 = 6
-#
-# class Number(Number1):
-#
-#     def __privat_numbers(self, number7):
-#         self.__number7 = number7
-#         self.__number8 = 8
-#         print(self.__number7 - self.__number8 - self._number11)
-#
-#     def __not_privat(self, number9):
-#         self._number9 = number9
-#         self._number10 = 10
-#         print(self._number9 + self._number10 + self._number11)
-#
-#
-# number = Number(3,4)
-# number._not_privat_numbers2(10)
-# number2 = Number1(4, 2)
-# number2._not_privat_number(90)
+for j in range(1,26):
+    print(f'Page {j}')
+    with open('catalog.txt', "a", encoding="utf-8") as file:
+      url = 'https://allo.ua/ua/products/internet-planshety/p-"[j]/'
+      response = session.get(url,headers=headers)
+
+      if response.status_code == 200:
+          soup = BeautifulSoup(response.text,"lxml")
+          all_products = soup.find_all("div", class_="products-layout__item")
+          for i in all_products:
+              if i.find('div', class_="product-card__content"):
+                  title = i.find('a', class_="product-card__title")
+                  print(title.text)
+                try:
+                    review = i.find('span', class_="review-button__text review-button__text--count")
+                expect NameError:
+                       print("нету")
+                  print(review.text)
+                  price = i.find('div', class_="v-pb__cur")
+                  print(price.txt)
+              else:
+                  print("Error")
+                   #file.write
+
+
+
+
