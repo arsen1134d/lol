@@ -33,16 +33,28 @@ for j in range(1,26):
               if i.find('div', class_="product-card__content"):
                   title = i.find('a', class_="product-card__title")
                   print(title.text)
-                try:
-                    review = i.find('span', class_="review-button__text review-button__text--count")
-                expect NameError:
-                       print("нету")
+                  try:
+                     review = i.find('span', class_="review-button__text review-button__text--count")
+                  except NameError:
+                       print("нема")
                   print(review.text)
                   price = i.find('div', class_="v-pb__cur")
                   print(price.txt)
               else:
                   print("Error")
-                   #file.write
+                   #file.write(f"{titel.text{}review.text}{price.text} \n")
+
+    for i range(len(all_products)):
+        title = all_products[i].find('a', class_="product-card__titel")
+        review = all_products[i].find('span', class_="review-button__text review-button__text--count")
+        price = all_products[i].find('div', class_="v-pb__cur")
+        sheet[f"A{i}"] = title.text
+        sheet[f"B{i}"] = review.text
+        sheet[f"C{i}"] = price.text
+        count =+ 1
+
+book.save('catalog.xlsx')
+book.close()
 
 
 
